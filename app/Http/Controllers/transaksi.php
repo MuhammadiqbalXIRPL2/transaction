@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\transaksi as ModelsTransaksi;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 
 class transaksi extends Controller
 {
@@ -11,7 +13,8 @@ class transaksi extends Controller
      */
     public function index()
     {
-        
+        $data = ModelsTransaksi::all();
+        return view('transaksi.index', ['data', $data]);
     }
 
     /**
@@ -19,7 +22,7 @@ class transaksi extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -27,7 +30,14 @@ class transaksi extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = new ModelsTransaksi([
+            'type_transaksi' => $request->type_transaksi,
+            'response_code' => $request->response_code,
+            'url' => $request->url,
+            'response_message' => $request->response_message,
+
+        ]);
+        $data->save();
     }
 
     /**
