@@ -2,6 +2,6 @@
 
 @section('chart')
     <div class="">
-        ini nyoba
+        ini nyoba hahahahahahaha
     </div>
 @endsection
