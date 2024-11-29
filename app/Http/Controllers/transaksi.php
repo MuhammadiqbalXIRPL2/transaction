@@ -11,7 +11,7 @@ class transaksi extends Controller
      */
     public function index()
     {
-        
+        return view('transaksi.index');
     }
 
     /**
