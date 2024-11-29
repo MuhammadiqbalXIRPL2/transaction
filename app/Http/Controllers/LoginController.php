@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Validator;
 
-class Login extends Controller
+class LoginController extends Controller
 {
-    function login(Request $request)
+    function loginPros(Request $request)
     {
         $request->validate([
             'name' => 'required',
@@ -21,9 +21,13 @@ class Login extends Controller
         $credentials = $request->only('name', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect('/index');
+            return redirect()->to('/transaksi');
         } else {
             return redirect('/')->withErrors('nama atau Password anda salah')->withInput();
         }
+    }
+    public function login()
+    {
+        return view('Login.index');
     }
 }
