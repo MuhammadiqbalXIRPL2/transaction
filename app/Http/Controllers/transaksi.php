@@ -24,8 +24,16 @@ class transaksi extends Controller
         $labels = $data->pluck('response_code');
         $counts = $data->pluck('total');
 
+        $transaksi = DB::table('transaksis')
+            ->select('type_transaksi', DB::raw('count(*) as total'))
+            ->groupBy('type_transaksi')
+            ->get();
 
-        return view('transaksi.index', compact('data1', 'data', 'labels', 'counts'));
+        $labels1 = $transaksi->pluck('type_transaksi');
+        $counts1 = $transaksi->pluck('total');
+
+
+        return view('transaksi.index', compact('data1', 'data', 'labels', 'counts', 'transaksi', 'labels1', 'counts1'));
     }
 
     /**
