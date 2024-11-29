@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @include('template.header')
 @include('template.navbar')
 @include('template.sidebar')
@@ -70,3 +71,18 @@
 </div>
 
 @include('template.footer')
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Data</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="bg-blue-400"></div>
+</body>
+</html>
+>>>>>>> ec7e1aa8b6f4d2e8fd164e26eff6a340978b94b9
