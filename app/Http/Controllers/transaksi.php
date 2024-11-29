@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\transaksi as ModelsTransaksi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Validator;
 
 class transaksi extends Controller
@@ -13,30 +14,37 @@ class transaksi extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
-        return view('transaksi.index');
-=======
-        $data = ModelsTransaksi::all();
-        return view('transaksi.index', ['data', $data]);
-    }
+        $data1 = ModelsTransaksi::all();
 
-    public function chart()
-    {
-        
->>>>>>> ec7e1aa8b6f4d2e8fd164e26eff6a340978b94b9
+        $data = DB::table('transaksis')
+            ->select('response_code', DB::raw('count(*) as total'))
+            ->groupBy('response_code')
+            ->get();
+
+        $labels = $data->pluck('response_code');
+        $counts = $data->pluck('total');
+
+
+        return view('transaksi.index', compact('data1', 'data', 'labels', 'counts'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function chart()
     {
-        
+        // $data = DB::table('transaksis')
+        //     ->select('response_code', DB::raw('count(*) as total'))
+        //     ->groupBy('response_code')
+        //     ->get();
+
+        // $labels = $data->pluck('response_code');
+        // $counts = $data->pluck('total');
+
+        return view('transaksi.chart', compact('labels', 'counts'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $data = new ModelsTransaksi([

@@ -8,3 +8,5 @@ Route::get('/', function () {
 });
 
 Route::resource('transaksi', transaksi::class);
+
+Route::get('/test', [transaksi::class, 'chart']);
