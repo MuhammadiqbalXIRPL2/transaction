@@ -13,9 +13,9 @@ class transaksi extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
+
         return view('transaksi.index');
-=======
+
         $data = ModelsTransaksi::all();
         return view('transaksi.index', ['data', $data]);
     }
@@ -23,7 +23,6 @@ class transaksi extends Controller
     public function chart()
     {
         
->>>>>>> ec7e1aa8b6f4d2e8fd164e26eff6a340978b94b9
     }
 
     /**
