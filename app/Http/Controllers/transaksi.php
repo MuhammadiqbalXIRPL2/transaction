@@ -17,6 +17,11 @@ class transaksi extends Controller
         return view('transaksi.index', ['data', $data]);
     }
 
+    public function chart()
+    {
+        
+    }
+
     /**
      * Show the form for creating a new resource.
      */
