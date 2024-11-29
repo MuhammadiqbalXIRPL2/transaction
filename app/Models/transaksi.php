@@ -9,8 +9,9 @@ class transaksi extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'type_transaksi',
+        'timestamp',
         'response_code',
+        'type_transaksi',
         'url',
         'response_message',
     ];
