@@ -1,59 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chart Response Code</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <div style="width: 80%; margin: 0 auto;">
-        <canvas id="responseChart"></canvas>
-    </div>
 
-    <script>
-        const labels = @json($labels);
-        const counts = @json($counts);
 
-        const ctx = document.getElementById('responseChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Jumlah Transaksi',
-                    data: counts,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.7)',
-                        'rgba(75, 192, 192, 0.7)', 
-                        'rgba(255, 205, 86, 0.7)' 
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(255, 205, 86, 1)'
-                    ],
-                    borderWidth: 1
-                }]
+<div class="container">
+    <h1>Heatmap Transaksi</h1>
+    <canvas id="heatmapChart"></canvas>
+</div>
+
+<script>
+    const heatmapData = @json($heatmapData);
+    const dates = @json($dates);
+    const types = @json($types);
+
+    const ctx = document.getElementById('heatmapChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'matrix',
+        data: {
+            datasets: [{
+                label: 'Jumlah Transaksi',
+                data: heatmapData,
+                backgroundColor: function(ctx) {
+                    const value = ctx.raw.v;
+                    const alpha = value / 10; // Skala transparansi berdasarkan nilai
+                    return `rgba(75, 192, 192, ${alpha})`;
+                },
+                borderWidth: 1,
+                width: ({chart}) => (chart.chartArea.width / dates.length) - 2,
+                height: ({chart}) => (chart.chartArea.height / types.length) - 2,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(ctx) {
+                            const xIndex = ctx[0].raw.x;
+                            const yIndex = ctx[0].raw.y;
+                            return `Tanggal: ${dates[xIndex]}, Tipe: ${types[yIndex]}`;
+                        },
+                        label: function(ctx) {
+                            return `Jumlah: ${ctx.raw.v}`;
+                        }
+                    }
+                }
             },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
+            scales: {
+                x: {
+                    type: 'category',
+                    labels: dates,
                     title: {
                         display: true,
-                        text: 'Jumlah Transaksi per Response Code'
+                        text: 'Tanggal'
                     }
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true
+                y: {
+                    type: 'category',
+                    labels: types,
+                    title: {
+                        display: true,
+                        text: 'Jenis Transaksi'
                     }
                 }
             }
-        });
-    </script>
-</body>
-</html>
+        }
+    });
+</script>
