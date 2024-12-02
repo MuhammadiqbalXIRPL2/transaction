@@ -11,3 +11,4 @@ Route::get('/test', [transaksi::class, 'chart']);
 Route::get('/login',[LoginController::class,'login'])->name('login');
 Route::post('/loginPros',[loginController::class,'loginPros'])->name('loginPros');
 
+Route::get('/table', [transaksi::class, 'table'])->name('table');

@@ -33,7 +33,7 @@ class transaksi extends Controller
         $counts1 = $transaksi->pluck('total');
 
 
-        return view('transaksi.index', compact('data1', 'data', 'labels', 'counts', 'transaksi', 'labels1', 'counts1'));
+        return view('transaksi.chart.index', compact('data1', 'data', 'labels', 'counts', 'transaksi', 'labels1', 'counts1'));
     }
 
     /**
@@ -95,5 +95,11 @@ class transaksi extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function table()
+    {
+        $data2 = ModelsTransaksi::paginate(6);
+        return view('transaksi.table.index', compact('data2'));
     }
 }

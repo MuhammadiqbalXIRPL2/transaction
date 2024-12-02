@@ -4,7 +4,6 @@
 <div class="main-content">
   <section class="container">
       <div class="row">
-          <!-- First Chart Card -->
           <div class="col-12 col-md-6 mb-4">
               <div class="card shadow">
                   <div class="card-body">
@@ -12,12 +11,10 @@
                   </div>
               </div>
           </div>
-
-          <!-- Second Chart Card -->
           <div class="col-12 col-md-6 mb-4">
               <div class="card shadow">
                   <div class="card-body">
-                      <canvas id="transaksi" style="width: 100%; height: auto;"></canvas>
+                      <canvas id="transaksi" style="width: 100%; height: 40%;"></canvas>
                   </div>
               </div>
           </div>
