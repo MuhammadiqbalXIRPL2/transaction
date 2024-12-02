@@ -32,9 +32,69 @@ class transaksi extends Controller
         $labels1 = $transaksi->pluck('type_transaksi');
         $counts1 = $transaksi->pluck('total');
 
+        // $data2 = ModelsTransaksi::selectRaw('
+        //     DATE(timestamp) as date, 
+        //     response_code, 
+        //     COUNT(*) as count
+        // ')
+        // ->groupByRaw('DATE(timestamp), response_code')
+        // ->orderBy('date', 'asc')
+        // ->get();
 
-        return view('transaksi.chart.index', compact('data1', 'data', 'labels', 'counts', 'transaksi', 'labels1', 'counts1'));
+        // $dates = $data2->pluck('date')->toArray();
+
+        // // dd($data2);
+
+        // $responseData = [];
+        // foreach ($data2 as $item) {
+        //     $responseData[$item->date][$item->response_code] = $item->count;
+        // }
+
+        // $chartData = [];
+        // foreach (ModelsTransaksi::all()->pluck('response_code')->unique() as $responseCode) {
+        //     $counts = [];
+        //     foreach ($dates as $date) {
+        //         $counts[] = isset($responseData[$date][$responseCode]) ? $responseData[$date][$responseCode] : 0;
+        //     }
+        //     $chartData[] = [
+        //         'name' => "Response Code $responseCode",
+        //         'data' => $counts,
+        //     ];
+        // }
+
+
+        $data2 = ModelsTransaksi::selectRaw('
+        DATE_FORMAT(timestamp, "%Y-%m-%d %H:00:00") as date_hour, 
+        response_code, 
+        COUNT(*) as count
+    ')
+            ->groupByRaw('DATE_FORMAT(timestamp, "%Y-%m-%d %H:00:00"), response_code')
+            ->orderBy('date_hour', 'asc')
+            ->get();
+
+        $responseData = [];
+        foreach ($data2 as $item) {
+            $responseData[$item->date_hour][$item->response_code] = $item->count;
+        }
+
+        $datesAndHours = array_keys($responseData);
+        $responseCodes = ModelsTransaksi::select('response_code')->distinct()->get();
+        $chartData = [];
+        foreach ($responseCodes as $responseCode) {
+            $counts = [];
+            foreach ($datesAndHours as $dateHour) {
+                $counts[] = isset($responseData[$dateHour][$responseCode->response_code]) ? $responseData[$dateHour][$responseCode->response_code] : 0;
+            }
+            $chartData[] = [
+                'name' => $responseCode->response_code,
+                'data' => $counts,
+            ];
+        }
+
+
+        return view('transaksi.chart.index', compact('data1', 'data', 'labels', 'counts', 'transaksi', 'labels1', 'counts1', 'chartData', 'datesAndHours'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -100,6 +160,7 @@ class transaksi extends Controller
     public function table()
     {
         $data2 = ModelsTransaksi::paginate(6);
+
         return view('transaksi.table.index', compact('data2'));
     }
 }

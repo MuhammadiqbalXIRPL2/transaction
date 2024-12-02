@@ -36,7 +36,7 @@
                                             {{ $d->response_code }}
                                         </td>
                                         <td>
-                                            {{ $d->timestamps }}
+                                            {{ $d->timestamp }}
                                         </td>
                                         <td>{{ $d->response_message }}</td>
                                         <td style="display: none">
